@@ -9,6 +9,13 @@ const ModelSpacePage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [output, setOutput] = useState(null);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     const fetchModelSpace = async () => {
@@ -65,15 +72,43 @@ const ModelSpacePage = () => {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
 
+  const containerStyle = {
+    display: 'flex',
+    flexDirection: isMobile ? 'column' : 'row',
+    height: 'auto',
+    minHeight: '96.5vh',
+    fontFamily: 'Arial, sans-serif',
+    padding: '1% 2% 0.5% 2%',
+    backgroundColor: "#f4f4f9"
+  };
+
+  const formContainerStyle = {
+    flex: isMobile ? '1' : '0.4',
+    marginRight: isMobile ? '0' : '2%',
+    marginBottom: isMobile ? '2%' : '0',
+    padding: '1% 2% 1% 2%',
+    backgroundColor: '#f9f9f9',
+    borderRadius: '10px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+  };
+
+  const outputContainerStyle = {
+    flex: isMobile ? '1' : '0.6',
+    padding: '2%',
+    backgroundColor: '#ffffff',
+    borderRadius: '10px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+  };
+
   return (
-    <div style={{ display: 'flex', height: '96.5vh', fontFamily: 'Arial, sans-serif', padding: '1% 2% 0.5% 2%', backgroundColor: "#f4f4f9" }}>
-      <div style={{ flex: 0.4, marginRight: '2%', padding: '1% 2% 1% 2%', backgroundColor: '#f9f9f9', borderRadius: '10px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', display: 'flex', flexDirection: 'column' }}>
-        <h1 style={{ marginBottom: '1rem' }}>{modelSpace.name}</h1>
-        <p style={{ marginBottom: '2rem' }}>{modelSpace.description}</p>
+    <div style={containerStyle}>
+      <div style={formContainerStyle}>
+        <h1 style={{ marginBottom: '1rem', fontSize: '1.5rem' }}>{modelSpace.name}</h1>
+        <p style={{ marginBottom: '2rem', fontSize: '1rem' }}>{modelSpace.description}</p>
         <form onSubmit={handleSubmit} style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
           {modelSpace.inputs.map(input => (
             <div key={input.name} style={{ marginBottom: '1rem' }}>
-              <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>{input.description}</label>
+              <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold', fontSize: '1rem' }}>{input.description}</label>
               <input
                 type={input.type === "image" || input.type === "audio" ? "file" : input.type}
                 name={input.name}
@@ -100,12 +135,12 @@ const ModelSpacePage = () => {
           </button>
         </form>
       </div>
-      <div style={{ flex: 0.6, padding: '2%', backgroundColor: '#ffffff', borderRadius: '10px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', display: 'flex', flexDirection: 'column' }}>
+      <div style={outputContainerStyle}>
         {output && (
           <div className="output-section" style={{ flex: 1 }}>
-            <h2 style={{ marginBottom: '1rem' }}>Output</h2>
+            <h2 style={{ marginBottom: '1rem', fontSize: '1.5rem' }}>Output</h2>
             {Object.entries(output).map(([key, value]) => (
-              <div key={key} style={{ marginBottom: '1rem', display: 'flex', flexDirection: 'column', height: '40%', width: '40%',}}>
+              <div key={key} style={{ marginBottom: '1rem' }}>
                 <strong>{key}:</strong>
                 {renderOutput(key, value)}
               </div>

@@ -112,12 +112,24 @@ const HomePage = () => {
           </p>
         </div>
 
-        <div style={{ flex: 1, maxWidth: "40%" }}>
+        <div
+          style={{
+            flex: 1,
+            maxWidth: "40%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           <Swiper
             spaceBetween={50}
             slidesPerView={1}
             pagination={{ clickable: true }}
             modules={[Pagination]}
+            style={{
+              width: "100%",
+              height: "100%",
+            }}
           >
             {modelSpaces.map((space) => (
               <SwiperSlide key={space.id}>
@@ -129,6 +141,9 @@ const HomePage = () => {
                     boxShadow: "0 6px 12px rgba(0, 0, 0, 0.1)",
                     textAlign: "center",
                     transition: "transform 0.3s, box-shadow 0.3s",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
                   }}
                 >
                   <Link
@@ -174,6 +189,25 @@ const HomePage = () => {
           </Swiper>
         </div>
       </div>
+
+      <style>
+        {`
+          @media (max-width: 768px) {
+            div[style*="display: flex; flex-direction: row;"] {
+              flex-direction: column !important;
+              gap: 20px !important;
+            }
+            div[style*="flex: 1; max-width: 40%;"] {
+              max-width: 100% !important;
+              margin-top: 0;
+            }
+            div[style*="flex: 1; max-width: 60%;"] {
+              max-width: 100% !important;
+              margin-bottom: 0;
+            }
+          }
+        `}
+      </style>
     </div>
   );
 };
