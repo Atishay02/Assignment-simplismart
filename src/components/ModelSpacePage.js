@@ -29,7 +29,7 @@ const ModelSpacePage = () => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result.split(',')[1]); // Base64 without the prefix
+      reader.onload = () => resolve(reader.result.split(',')[1]);
       reader.onerror = error => reject(error);
     });
   };
@@ -66,7 +66,7 @@ const ModelSpacePage = () => {
   if (error) return <p>Error: {error}</p>;
 
   return (
-    <div style={{ display: 'flex', height: '100vh', fontFamily: 'Arial, sans-serif', padding: '1% 2% 0.5% 2%', backgroundColor: "#f4f4f9" }}>
+    <div style={{ display: 'flex', height: '96.5vh', fontFamily: 'Arial, sans-serif', padding: '1% 2% 0.5% 2%', backgroundColor: "#f4f4f9" }}>
       <div style={{ flex: 0.4, marginRight: '2%', padding: '1% 2% 1% 2%', backgroundColor: '#f9f9f9', borderRadius: '10px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', display: 'flex', flexDirection: 'column' }}>
         <h1 style={{ marginBottom: '1rem' }}>{modelSpace.name}</h1>
         <p style={{ marginBottom: '2rem' }}>{modelSpace.description}</p>
@@ -79,6 +79,7 @@ const ModelSpacePage = () => {
                 name={input.name}
                 onChange={handleChange}
                 required={input.required}
+                accept={input.type === "image" ? "image/jpeg, image/jpg, image/png" : input.type === "audio" ? "audio/mpeg" : ""}
                 style={{ width: '100%', padding: '0.35rem', borderRadius: '5px', border: '1px solid #ddd' }}
               />
             </div>
@@ -104,7 +105,7 @@ const ModelSpacePage = () => {
           <div className="output-section" style={{ flex: 1 }}>
             <h2 style={{ marginBottom: '1rem' }}>Output</h2>
             {Object.entries(output).map(([key, value]) => (
-              <div key={key} style={{ marginBottom: '1rem', display: 'flex', flexDirection: 'column', }}>
+              <div key={key} style={{ marginBottom: '1rem', display: 'flex', flexDirection: 'column', height: '40%', width: '40%',}}>
                 <strong>{key}:</strong>
                 {renderOutput(key, value)}
               </div>

@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
 
 const HomePage = () => {
   const [modelSpaces, setModelSpaces] = useState([]);
@@ -27,51 +31,148 @@ const HomePage = () => {
   if (error) return <p>Error: {error}</p>;
 
   return (
-    <div style={{ padding: "2%", fontFamily: "Arial, sans-serif", backgroundColor: "#f4f4f9", minHeight: "100vh" }}>
-      <h1 style={{ textAlign: "center", fontSize: "2.5rem", color: "#333", marginBottom: "2.5%" }}>
+    <div
+      style={{
+        padding: "2%",
+        fontFamily: "Arial, sans-serif",
+        backgroundColor: "#f0f4f8",
+        minHeight: "91vh",
+      }}
+    >
+      <h1
+        style={{
+          textAlign: "center",
+          fontSize: "2.8rem",
+          color: "#2c3e50",
+          marginBottom: "2.5%",
+          fontWeight: "bold",
+        }}
+      >
         Model Spaces
       </h1>
-      <p style={{ textAlign: "center", fontSize: "1.1rem", color: "#666", maxWidth: "800px", margin: "0 auto 4%" }}>
-        Welcome to our Model Space, where we showcase some of the most advanced AI models developed by leading research teams.
-        Our collection includes cutting-edge models like Meta Llama 2, OpenAI Whisper Large V2, and Stable Diffusion XL.
-        Explore these powerful models, each engineered to push the boundaries of what's possible in AI.
-      </p>
-      <div style={{ display: "flex", justifyContent: "center" }}>
-        <ul style={{ display: "flex", flexWrap: "wrap", gap: "2%", listStyleType: "none", padding: "0", maxWidth: "80%" }}>
-          {modelSpaces.map((space) => (
-            <li
-              key={space.id}
-              style={{
-                backgroundColor: "#fff",
-                borderRadius: "12px",
-                padding: "20px",
-                boxShadow: "0 6px 12px rgba(0, 0, 0, 0.1)",
-                textAlign: "center",
-                transition: "transform 0.3s, box-shadow 0.3s",
-                width: "calc(29%)",
-                marginBottom: "2%",
-              }}
-            >
-              <Link to={`/model-spaces/${space.id}`} style={{ textDecoration: "none", color: "inherit" }}>
-                <img
-                  src={space.avatar}
-                  alt={`${space.name} avatar`}
-                  style={{ borderRadius: "50%", marginBottom: "15px", width: "80px", height: "80px", objectFit: "cover" }}
-                />
-                <h2 style={{ fontSize: "1.6rem", margin: "10px 0", color: "#333" }}>{space.name}</h2>
-                <p style={{ fontSize: "1rem", color: "#777", lineHeight: "1.5", maxHeight: "4.5rem", overflow: "hidden", textOverflow: "ellipsis" }}>
-                  {space.description}
-                </p>
-              </Link>
-              <style jsx>{`
-                li:hover {
-                  transform: scale(1.05);
-                  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
-                }
-              `}</style>
-            </li>
-          ))}
-        </ul>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          flexWrap: "wrap",
+          justifyContent: "center",
+          alignItems: "flex-start",
+          gap: "3%",
+        }}
+      >
+        <div
+          style={{
+            flex: 1,
+            maxWidth: "60%",
+            backgroundColor: "#ffffff",
+            padding: "2% 4%",
+            borderRadius: "8px",
+            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+            boxSizing: "border-box",
+          }}
+        >
+          <p
+            style={{
+              fontSize: "1.2rem",
+              color: "#34495e",
+              lineHeight: "1.7",
+              marginBottom: "1.5rem",
+            }}
+          >
+            Welcome to our Model Space, where we showcase some of the most
+            advanced AI models developed by leading research teams worldwide.
+            Our collection features cutting-edge models like Meta Llama 2,
+            OpenAI Whisper Large V2, and Stable Diffusion XL, each representing
+            significant advancements in AI technology.
+          </p>
+          <p
+            style={{
+              fontSize: "1.2rem",
+              color: "#34495e",
+              lineHeight: "1.7",
+              marginBottom: "1.5rem",
+            }}
+          >
+            Meta Llama 2 excels in natural language understanding and
+            generation, while OpenAI Whisper Large V2 is renowned for its fast
+            and accurate speech recognition. We also highlight Stable Diffusion
+            XL, an innovative model for generative art and design.
+          </p>
+          <p
+            style={{
+              fontSize: "1.2rem",
+              color: "#34495e",
+              lineHeight: "1.7",
+              marginBottom: "1.5rem",
+            }}
+          >
+            Explore these models and discover how they're setting new standards
+            and transforming industries with their capabilities. Dive into the
+            future of AI with us.
+          </p>
+        </div>
+
+        <div style={{ flex: 1, maxWidth: "40%" }}>
+          <Swiper
+            spaceBetween={50}
+            slidesPerView={1}
+            pagination={{ clickable: true }}
+            modules={[Pagination]}
+          >
+            {modelSpaces.map((space) => (
+              <SwiperSlide key={space.id}>
+                <div
+                  style={{
+                    backgroundColor: "#fff",
+                    borderRadius: "12px",
+                    padding: "20px",
+                    boxShadow: "0 6px 12px rgba(0, 0, 0, 0.1)",
+                    textAlign: "center",
+                    transition: "transform 0.3s, box-shadow 0.3s",
+                  }}
+                >
+                  <Link
+                    to={`/model-spaces/${space.id}`}
+                    style={{ textDecoration: "none", color: "#333" }}
+                  >
+                    <img
+                      src={space.avatar}
+                      alt={`${space.name} avatar`}
+                      style={{
+                        borderRadius: "50%",
+                        marginBottom: "15px",
+                        width: "100px",
+                        height: "100px",
+                        objectFit: "cover",
+                      }}
+                    />
+                    <h2
+                      style={{
+                        fontSize: "1.6rem",
+                        margin: "10px 0",
+                        color: "#2c3e50",
+                      }}
+                    >
+                      {space.name}
+                    </h2>
+                    <p
+                      style={{
+                        fontSize: "1rem",
+                        color: "#7f8c8d",
+                        lineHeight: "1.5",
+                        maxHeight: "4.5rem",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                      }}
+                    >
+                      {space.description}
+                    </p>
+                  </Link>
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
       </div>
     </div>
   );
